@@ -203,4 +203,4 @@ for bloco in blocos:
         dados.append([titulo, resultado])
 
 # Escrever na planilha
-worksheet.update("A1", dados)
+worksheet.update(dados, "A1")

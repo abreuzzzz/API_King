@@ -18,11 +18,11 @@ client = gspread.authorize(creds)
 
 # === IDs das planilhas ===
 planilhas_ids = {
-    "Financeiro_contas_a_receber_Dagaz": "1CHTtH7vFCGeRsc-OFcyjbMD5jEprCJo_2vRper8lB18",
-    "Financeiro_contas_a_pagar_Dagaz": "1nOORma7-D68wQAyvSGzMFPanPTuVQY5j-YmHi8vQucc",
-    "Detalhe_centro_pagamento": "1-nrKev6NWomJNK_bxFYLpNpznzY1Wn4hhRkildrwf4c",
-    "Detalhe_centro_recebimento": "1_Dl76EiQQWKcdPt0J4Sm7DrA_sdn143QeFwqouCseRM",
-    "Financeiro_Completo_Dagaz": "1VUF9gi6WIuWaT8gK_P9pIocOwByuwPF49owrIJZ0g9M"
+    "FInanceiro_contas_a_receber_King": "1yw2j8uUMzFSE8w7HGca2N0OfaYcLD07koql5ch-nV4o",
+    "Financeiro_contas_a_pagar_King": "1YY2Svu6VSq0VkCCsu4u3b-i0PXfKWPtvK5Lj0citKMM",
+    "Detalhe_centro_pagamento": "143PmlJ8L5kzRUse802PLTonPTgG-94w0_BSF0TlQbtk",
+    "Detalhe_centro_recebimento": "1RdUACtCefDvvUfLp6QyNCxYaAMoOBPu4C7Z0egOh0NI",
+    "Financeiro_Completo_King": "1xwp9gIz0lV4mW5geUBESj1W59QSySdVYipThXAOUgrU"
 }
 
 # === Função para abrir e ler planilha por ID ===
@@ -33,8 +33,8 @@ def ler_planilha_por_id(nome_arquivo):
     return df
 
 # Lê os dados das planilhas
-df_receber = ler_planilha_por_id("Financeiro_contas_a_receber_Dagaz")
-df_pagar = ler_planilha_por_id("Financeiro_contas_a_pagar_Dagaz")
+df_receber = ler_planilha_por_id("FInanceiro_contas_a_receber_King")
+df_pagar = ler_planilha_por_id("Financeiro_contas_a_pagar_King")
 df_pagamento = ler_planilha_por_id("Detalhe_centro_pagamento")
 df_recebimento = ler_planilha_por_id("Detalhe_centro_recebimento")
 
@@ -83,7 +83,7 @@ if 'categoriesRatio.value' in df_merge.columns and 'paid' in df_merge.columns:
     )
 
 # 📄 Abrir a planilha de saída
-planilha_saida = client.open_by_key(planilhas_ids["Financeiro_Completo_Dagaz"])
+planilha_saida = client.open_by_key(planilhas_ids["Financeiro_Completo_King"])
 aba_saida = planilha_saida.sheet1
 
 # Limpa a aba e sobrescreve

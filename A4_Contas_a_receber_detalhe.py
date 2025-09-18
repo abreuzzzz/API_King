@@ -39,7 +39,11 @@ result = sheets_service.spreadsheets().values().get(
     range=sheet_range
 ).execute()
 values = result.get('values', [])
-df_base = pd.DataFrame(values[1:], columns=values[0])
+# Normalizar linhas para ter sempre o mesmo nº de colunas que o cabeçalho
+max_cols = len(values[0])
+data = [row + [""] * (max_cols - len(row)) for row in values[1:]]
+
+df_base = pd.DataFrame(data, columns=values[0])
 
 ids = df_base["financialEvent.id"].dropna().unique()
 print(f"📥 Planilha carregada com {len(ids)} IDs únicos.")

@@ -72,8 +72,8 @@ dados_formatados = [extract_fields(item, colunas_base) for item in all_items]
 df = pd.DataFrame(dados_formatados)
 
 # ===================== Buscar ID da planilha no Google Drive =====================
-folder_id = "10UEE_tenpCEyJ_6dt2r1_iw7Vnpo9zm2"
-sheet_name = "Financeiro_contas_a_pagar_Dagaz"
+folder_id = "1kdk_mWvqFbQjW6Kit_NoyYe0zBqtDOxa"
+sheet_name = "Financeiro_contas_a_pagar_King"
 
 query = f"name='{sheet_name}' and mimeType='application/vnd.google-apps.spreadsheet' and '{folder_id}' in parents and trashed=false"
 results = drive_service.files().list(q=query, spaces='drive', fields="files(id, name)").execute()

@@ -1,6 +1,4 @@
-
-# 3. GitHub Actions workflow
-workflow = '''name: Monitor Horários Pure Pilates
+name: Monitor Horários Pure Pilates
 
 on:
   schedule:
@@ -43,9 +41,3 @@ jobs:
         git config --local user.name "GitHub Action"
         git add horarios_anteriores.json || true
         git diff --quiet && git diff --staged --quiet || (git commit -m "Atualizar horários monitorados [skip ci]" && git push)
-'''
-
-with open('.github/workflows/monitor_pilates.yml', 'w', encoding='utf-8') as f:
-    f.write(workflow)
-
-print("✅ Arquivo criado: .github/workflows/monitor_pilates.yml")

@@ -134,7 +134,7 @@ def formatar_mensagem_novos_horarios(novos_horarios):
         mensagem += f"🕐 {horario['horaVisivel']}\n"
         mensagem += f"👤 {horario['professor']}\n\n"
 
-    mensagem += "🔗 Agende já: https://www.purepilates.com.br/vila-carrao/centro"
+    mensagem += "🔗 Agende já: gympass://"
 
     return mensagem
 

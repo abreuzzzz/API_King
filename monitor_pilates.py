@@ -28,11 +28,12 @@ def fazer_requisicao_api():
         return None
 
 def filtrar_horarios(dados):
-    """Filtra horários de terça e quinta a partir das 13h (limite: hoje + 6 dias)"""
+    """Filtra horários de terça e quinta, considerando hoje a partir da hora atual e futuro até 6 dias à frente"""
     if not dados or 'horarios' not in dados:
         return []
 
-    hoje = datetime.now().date()
+    agora = datetime.now()
+    hoje = agora.date()
     limite = hoje + timedelta(days=6)
     horarios_filtrados = []
 
@@ -41,22 +42,33 @@ def filtrar_horarios(dados):
         data_str = horario.get('data', '')
         hora_obj = horario.get('hora', {})
         hora = hora_obj.get('Hours', 0)
+        minuto = hora_obj.get('Minutes', 0)
 
-        # Converter a string de data da API (dd/mm/yyyy) em datetime
         try:
             data_obj = datetime.strptime(data_str, "%d/%m/%Y").date()
         except ValueError:
             continue
 
-        # Filtro: data dentro do intervalo e horário >= 13h em terça/quinta
-        if hoje <= data_obj <= limite and dia_semana in ['Terça-Feira', 'Quinta-Feira'] and hora >= 13:
-            horarios_filtrados.append({
-                'data': horario.get('data'),
-                'diaDaSemana': dia_semana,
-                'horaVisivel': horario.get('horaVisivel'),
-                'professor': horario.get('professor'),
-                'identificador': f"{horario.get('data')}_{horario.get('horaReal')}"
-            })
+        # Se a data for hoje, considerar horário a partir da hora atual
+        if data_obj == hoje:
+            if dia_semana in ['Terça-Feira', 'Quinta-Feira'] and (hora > agora.hour or (hora == agora.hour and minuto >= agora.minute)):
+                horarios_filtrados.append({
+                    'data': horario.get('data'),
+                    'diaDaSemana': dia_semana,
+                    'horaVisivel': horario.get('horaVisivel'),
+                    'professor': horario.get('professor'),
+                    'identificador': f"{horario.get('data')}_{horario.get('horaReal')}"
+                })
+        else:
+            # Para datas futuras, filtro padrão >= 13h
+            if hoje <= data_obj <= limite and dia_semana in ['Terça-Feira', 'Quinta-Feira'] and hora >= 13:
+                horarios_filtrados.append({
+                    'data': horario.get('data'),
+                    'diaDaSemana': dia_semana,
+                    'horaVisivel': horario.get('horaVisivel'),
+                    'professor': horario.get('professor'),
+                    'identificador': f"{horario.get('data')}_{horario.get('horaReal')}"
+                })
 
     return horarios_filtrados
 
@@ -87,27 +99,31 @@ def detectar_novos_horarios(horarios_atuais, horarios_anteriores):
     return novos_horarios
 
 def enviar_notificacao_telegram(mensagem):
-    """Envia notificação via Telegram"""
+    """Envia notificação via Telegram para multiples chat IDs separados por vírgula"""
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         print("Token ou Chat ID do Telegram não configurados")
         return False
 
+    chat_ids = [cid.strip() for cid in TELEGRAM_CHAT_ID.split(',') if cid.strip()]
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    sucesso_total = True
 
-    payload = {
-        'chat_id': TELEGRAM_CHAT_ID,
-        'text': mensagem,
-        'parse_mode': 'HTML'
-    }
+    for chat_id in chat_ids:
+        payload = {
+            'chat_id': chat_id,
+            'text': mensagem,
+            'parse_mode': 'HTML'
+        }
 
-    try:
-        response = requests.post(url, json=payload)
-        response.raise_for_status()
-        print("Notificação enviada com sucesso!")
-        return True
-    except Exception as e:
-        print(f"Erro ao enviar notificação: {e}")
-        return False
+        try:
+            response = requests.post(url, json=payload)
+            response.raise_for_status()
+            print(f"✅ Notificação enviada para {chat_id}")
+        except Exception as e:
+            print(f"Erro ao enviar para {chat_id}: {e}")
+            sucesso_total = False
+
+    return sucesso_total
 
 def formatar_mensagem_novos_horarios(novos_horarios):
     """Formata mensagem com novos horários"""
@@ -133,7 +149,7 @@ def main():
 
     # 2. Filtrar horários relevantes
     horarios_atuais = filtrar_horarios(dados)
-    print(f"Horários encontrados (terça/quinta >= 13h e até +9 dias): {len(horarios_atuais)}")
+    print(f"Horários encontrados (filtrados): {len(horarios_atuais)}")
 
     # 3. Carregar horários anteriores
     horarios_anteriores = carregar_horarios_anteriores()

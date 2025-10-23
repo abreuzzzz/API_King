@@ -2,8 +2,8 @@ name: Monitor Horários Pure Pilates
 
 on:
   schedule:
-    # Executa de 1 em 1 hora (cron em UTC, ajuste conforme necessário)
-    - cron: '0 * * * *'
+    - cron: '*/30 8-23 * * *'  # de 8h a 23h30 (UTC)
+    - cron: '*/30 0-4 * * *'   # de 0h a 4h30 (UTC)
   
   # Permite execução manual
   workflow_dispatch:

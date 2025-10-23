@@ -1,7 +1,7 @@
 import requests
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Configurações
 TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
@@ -28,19 +28,28 @@ def fazer_requisicao_api():
         return None
 
 def filtrar_horarios(dados):
-    """Filtra horários de terça e quinta a partir das 13h"""
+    """Filtra horários de terça e quinta a partir das 13h (limite: hoje + 9 dias)"""
     if not dados or 'horarios' not in dados:
         return []
 
+    hoje = datetime.now().date()
+    limite = hoje + timedelta(days=9)
     horarios_filtrados = []
 
     for horario in dados['horarios']:
         dia_semana = horario.get('diaDaSemana', '')
+        data_str = horario.get('data', '')
         hora_obj = horario.get('hora', {})
         hora = hora_obj.get('Hours', 0)
 
-        # Filtrar terça e quinta com horário >= 13h
-        if dia_semana in ['Terça-Feira', 'Quinta-Feira'] and hora >= 13:
+        # Converter a string de data da API (dd/mm/yyyy) em datetime
+        try:
+            data_obj = datetime.strptime(data_str, "%d/%m/%Y").date()
+        except ValueError:
+            continue
+
+        # Filtro: data dentro do intervalo e horário >= 13h em terça/quinta
+        if hoje <= data_obj <= limite and dia_semana in ['Terça-Feira', 'Quinta-Feira'] and hora >= 13:
             horarios_filtrados.append({
                 'data': horario.get('data'),
                 'diaDaSemana': dia_semana,
@@ -124,7 +133,7 @@ def main():
 
     # 2. Filtrar horários relevantes
     horarios_atuais = filtrar_horarios(dados)
-    print(f"Horários encontrados (terça/quinta >= 13h): {len(horarios_atuais)}")
+    print(f"Horários encontrados (terça/quinta >= 13h e até +9 dias): {len(horarios_atuais)}")
 
     # 3. Carregar horários anteriores
     horarios_anteriores = carregar_horarios_anteriores()

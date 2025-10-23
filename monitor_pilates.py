@@ -28,7 +28,7 @@ def fazer_requisicao_api():
         return None
 
 def filtrar_horarios(dados):
-    """Filtra horários de terça e quinta a partir das 13h (limite: hoje + 9 dias)"""
+    """Filtra horários de terça e quinta a partir das 13h (limite: hoje + 6 dias)"""
     if not dados or 'horarios' not in dados:
         return []
 

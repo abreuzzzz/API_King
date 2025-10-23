@@ -33,7 +33,7 @@ def filtrar_horarios(dados):
         return []
 
     hoje = datetime.now().date()
-    limite = hoje + timedelta(days=9)
+    limite = hoje + timedelta(days=6)
     horarios_filtrados = []
 
     for horario in dados['horarios']:

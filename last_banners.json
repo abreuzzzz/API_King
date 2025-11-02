@@ -1,0 +1,117 @@
+[
+  {
+    "initialDate": "2025-10-27T11:45:00",
+    "initialHour": "11:45",
+    "endDate": "2025-11-29T09:00:00",
+    "endHour": "09:00",
+    "imageText": "Festival de Society Infantil do Itaú Clube",
+    "description": "<h2><strong>FESTIVAL&nbsp;DE&nbsp;SOCIETY&nbsp;INFANTIL</strong></h2><p>Os&nbsp;pequenos&nbsp;craques&nbsp;entram&nbsp;em&nbsp;campo&nbsp;para&nbsp;um&nbsp;dia&nbsp;cheio&nbsp;de&nbsp;diversão,&nbsp;gols&nbsp;e&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;amizade!&nbsp;</p>",
+    "isActive": true,
+    "image": "07110659-9feb-495a-95d9-557ada95a95e-Crianças-jogando-futebol-society.",
+    "position": 3,
+    "pageId": 1,
+    "bannerId": 44,
+    "cta": 1,
+    "actions": [
+      {
+        "id": 99,
+        "description": "Inscrições aqui",
+        "icon": "assignment_turned_in",
+        "template": "ORANGE",
+        "type": "LINK",
+        "url": "https://appadmin.itauunibancoclube.com.br/evento/12",
+        "isNewWindow": false
+      }
+    ]
+  },
+  {
+    "initialDate": "2025-10-29T14:00:00",
+    "initialHour": "14:00",
+    "endDate": "2025-11-19T18:00:00",
+    "endHour": "18:00",
+    "imageText": "Músicos exibindo instrumentos.",
+    "description": "<h3><strong>Rock&nbsp;in&nbsp;Clube&nbsp;2025&nbsp;–&nbsp;Gastronomia&nbsp;e&nbsp;música&nbsp;que&nbsp;vão&nbsp;marcar&nbsp;o&nbsp;seu&nbsp;feriado!</strong></h3>",
+    "isActive": true,
+    "image": "8a8e27ea-8d52-42e0-91cd-0d613861ef4b-Músicos-exibindo-instrumentos.",
+    "position": 4,
+    "pageId": 1,
+    "bannerId": 41,
+    "cta": 0,
+    "actions": []
+  },
+  {
+    "initialDate": "2025-10-24T07:00:00",
+    "initialHour": "07:00",
+    "endDate": "2025-11-16T12:00:00",
+    "endHour": "12:00",
+    "imageText": "Hospedagem disponível em Dezembro",
+    "description": "<h2>Hospedagem&nbsp;no&nbsp;Clube&nbsp;⛱️</h2><p></p><ul><li>Calendário&nbsp;disponível&nbsp;para&nbsp;reservas&nbsp;em&nbsp;Itanhaém&nbsp;e&nbsp;São&nbsp;Sebastião&nbsp;até&nbsp;22&nbsp;de&nbsp;Dezembro.</li><li>Em&nbsp;breve&nbsp;divulgaremos&nbsp;a&nbsp;data&nbsp;de&nbsp;liberação&nbsp;dos&nbsp;pacotes&nbsp;de&nbsp;Natal&nbsp;e&nbsp;Ano&nbsp;Novo.</li><li>Pacote&nbsp;Rock&nbsp;in&nbsp;Clube&nbsp;está&nbsp;no&nbsp;ar!&nbsp;Confira&nbsp;a&nbsp;publicação&nbsp;clicando&nbsp;no&nbsp;link&nbsp;abaixo.</li></ul>",
+    "isActive": true,
+    "image": "181d53a3-60c8-48a7-8f2b-6da14284da1e-Hospedagem-disponível-até-Dezembro.jpeg",
+    "position": 5,
+    "pageId": 1,
+    "bannerId": 19,
+    "cta": 1,
+    "actions": [
+      {
+        "id": 94,
+        "description": "Ver Rock in Clube",
+        "icon": "keyboard_arrow_right",
+        "template": "ORANGE",
+        "type": "POSTAGEM",
+        "url": "https://app.itauunibancoclube.com.br/publicacoes/19",
+        "isNewWindow": false
+      }
+    ]
+  },
+  {
+    "initialDate": "2025-06-24T09:00:00",
+    "initialHour": "09:00",
+    "endDate": "2030-06-17T09:00:00",
+    "endHour": "09:00",
+    "imageText": "Casa da praia com cadeiras e ambiente ensolarado",
+    "description": "<h2><span class=\"ql-color-orange\">Confira&nbsp;as&nbsp;principais&nbsp;novidades!</span></h2><p>Nessa&nbsp;publicação&nbsp;você&nbsp;irá&nbsp;conferir&nbsp;as&nbsp;principais&nbsp;mudanças.</p>",
+    "isActive": true,
+    "image": "e19a406e-3a4f-4587-a5c9-b8ee819cf2c8-São-Sebastião-Praia.png",
+    "position": 6,
+    "pageId": 1,
+    "bannerId": 3,
+    "cta": 1,
+    "actions": [
+      {
+        "id": 24,
+        "description": "Ver mais",
+        "icon": "chevron_right",
+        "template": "ORANGE",
+        "type": "LINK",
+        "url": "https://app.itauunibancoclube.com.br/publicacoes/10",
+        "isNewWindow": false
+      }
+    ]
+  },
+  {
+    "initialDate": "2025-10-24T09:00:00",
+    "initialHour": "09:00",
+    "endDate": "2026-06-07T15:00:00",
+    "endHour": "15:00",
+    "imageText": "Imagem de um dia ensolarado em São Sebastião. O texto contém orientações de acessos",
+    "description": "<h4>Bem&nbsp;vindo(a)!</h4><p></p><p>Para&nbsp;lhe&nbsp;ajudar&nbsp;nesse&nbsp;primeiro&nbsp;acesso,&nbsp;separamos&nbsp;um&nbsp;conteúdo&nbsp;especial&nbsp;para&nbsp;você!</p><p></p>",
+    "isActive": true,
+    "image": "29bdde43-000f-4d73-8853-d067d84754eb-Praia-de-São-Sebastião-.png",
+    "position": 7,
+    "pageId": 1,
+    "bannerId": 1,
+    "cta": 1,
+    "actions": [
+      {
+        "id": 98,
+        "description": "Ituber | Tutorial",
+        "icon": "font_download",
+        "template": "BLUE",
+        "type": "LINK",
+        "url": "https://app.itauunibancoclube.com.br/publicacoes/8",
+        "isNewWindow": false
+      }
+    ]
+  }
+]

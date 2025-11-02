@@ -1,12 +1,12 @@
-name: Verifica frase do Itaú Clube
+name: Monitora banners do Itaú Clube
 
-off:
+on:
   schedule:
-    - cron: '0 * * * *'  # Roda de 1h em 1h
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 jobs:
-  check_phrase:
+  check_banners:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,8 +24,15 @@ jobs:
       - name: Instala dependências
         run: pip install requests
 
-      - name: Executa verificação
+      - name: Checa banners
         env:
           TELEGRAM_BOT_TOKEN2: ${{ secrets.TELEGRAM_BOT_TOKEN2 }}
           TELEGRAM_CHAT_ID2: ${{ secrets.TELEGRAM_CHAT_ID2 }}
-        run: python itau.py
+        run: python itau_api_check.py
+
+      - name: Salva cache
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          file_pattern: last_banners.json
+          commit_message: Atualiza cache dos banners Itaú
+          skip_dirty_check: false

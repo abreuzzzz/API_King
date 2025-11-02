@@ -28,7 +28,7 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN2: ${{ secrets.TELEGRAM_BOT_TOKEN2 }}
           TELEGRAM_CHAT_ID2: ${{ secrets.TELEGRAM_CHAT_ID2 }}
-        run: python itau_api_check.py
+        run: python itau.py
 
       - name: Salva cache
         uses: stefanzweifel/git-auto-commit-action@v5

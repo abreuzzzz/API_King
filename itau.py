@@ -1,11 +1,14 @@
 import requests
 import os
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 SITE_URL = 'https://app.itauunibancoclube.com.br'
 PHRASE = 'Em breve divulgaremos a data de liberação dos pacotes de Natal e Ano Novo'
 
 def check_phrase():
-    resp = requests.get(SITE_URL, timeout=15)
+    resp = requests.get(SITE_URL, timeout=15, verify=False)
     has_phrase = PHRASE in resp.text
     return has_phrase
 

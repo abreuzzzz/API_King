@@ -1,0 +1,26 @@
+name: Verifica frase do Itaú Clube
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Rodar a cada hora
+  workflow_dispatch:
+
+jobs:
+  check_phrase:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configura Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Instala dependências
+        run: pip install requests
+
+      - name: Executa verificação
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN2 }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID2 }}
+        run: python itau.py

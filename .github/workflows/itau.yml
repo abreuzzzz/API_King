@@ -1,6 +1,6 @@
 name: Verifica frase do Itaú Clube
 
-on:
+off:
   schedule:
     - cron: '0 * * * *'  # Roda de 1h em 1h
   workflow_dispatch:

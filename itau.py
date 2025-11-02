@@ -1,30 +1,42 @@
 import requests
 import os
-import urllib3
+import json
 
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+API_URL = 'https://api.itauunibancoclube.com.br/notification-service/api/v1/beneficiary/banners?pageId=1'
+CACHE_FILE = 'last_banners.json'
 
-SITE_URL = 'https://app.itauunibancoclube.com.br'
-PHRASE = 'Em breve divulgaremos a data de liberação dos pacotes de Natal e Ano Novo'
+def fetch_data():
+    resp = requests.get(API_URL, timeout=15, verify=False)
+    resp.raise_for_status()
+    return resp.json()
 
-def check_phrase():
-    resp = requests.get(SITE_URL, timeout=15, verify=False)
-    has_phrase = PHRASE in resp.text
-    return has_phrase
+def load_last():
+    if not os.path.exists(CACHE_FILE):
+        return None
+    with open(CACHE_FILE, 'r', encoding='utf-8') as f:
+        return json.load(f)
 
-def send_telegram(msg):
+def save_current(data):
+    with open(CACHE_FILE, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+def notify_telegram(content):
     token = os.getenv("TELEGRAM_BOT_TOKEN2")
     chat_id = os.getenv("TELEGRAM_CHAT_ID2")
     if not (token and chat_id):
         print("Configuração do Telegram ausente")
         return
     url = f'https://api.telegram.org/bot{token}/sendMessage'
-    data = {
-        "chat_id": chat_id,
-        "text": msg
-    }
-    requests.post(url, json=data)
+    msg = "👍 Atualização detectada nos banners: \n\n" + json.dumps(content, ensure_ascii=False, indent=2)
+    data = {"chat_id": chat_id, "text": msg}
+    resp = requests.post(url, json=data)
+    print("Telegram status:", resp.status_code)
 
 if __name__ == "__main__":
-    if not check_phrase():
-        send_telegram("Atenção: Frase sumiu do site do Itaú Clube. Confira os pacotes de Natal/Ano Novo!")
+    current = fetch_data()
+    last = load_last()
+    if current != last:
+        notify_telegram(current)
+        save_current(current)
+    else:
+        print("Nenhuma alteração detectada")

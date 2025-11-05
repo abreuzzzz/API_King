@@ -1,5 +1,55 @@
 [
   {
+    "initialDate": "2025-11-05T10:00:00",
+    "initialHour": "10:00",
+    "endDate": "2025-11-23T18:00:00",
+    "endHour": "18:00",
+    "imageText": "Pessoas em uma mesa durante a ceia de Natal.",
+    "description": "<h2><strong>PACOTE&nbsp;DE&nbsp;NATAL</strong></h2><p>O&nbsp;Natal&nbsp;no&nbsp;Itaú&nbsp;Clube&nbsp;promete&nbsp;uma&nbsp;noite&nbsp;encantadora&nbsp;e&nbsp;cheia&nbsp;de&nbsp;significado&nbsp;para&nbsp;você&nbsp;e&nbsp;sua&nbsp;família.</p><p><strong>Vendas&nbsp;disponíveis&nbsp;a&nbsp;partir&nbsp;de&nbsp;10/11&nbsp;as&nbsp;10h.</strong></p>",
+    "isActive": true,
+    "image": "e45042c0-3003-49ca-aa2d-5185934f93a4-Pessoas-em-uma-mesa-durante-a-ceia-de-Natal.",
+    "position": 2,
+    "pageId": 1,
+    "bannerId": 46,
+    "cta": 1,
+    "actions": [
+      {
+        "id": 104,
+        "description": "Saiba mais",
+        "icon": "announcement",
+        "template": "ORANGE",
+        "type": "LINK",
+        "url": "https://app.itauunibancoclube.com.br/publicacoes/21",
+        "isNewWindow": true
+      }
+    ]
+  },
+  {
+    "initialDate": "2025-11-05T10:00:00",
+    "initialHour": "10:00",
+    "endDate": "2025-12-30T18:00:00",
+    "endHour": "18:00",
+    "imageText": "Pessoas vestindo branco e brindando a chegada do Ano Novo.",
+    "description": "<h2><strong>PACOTE&nbsp;DE&nbsp;ANO&nbsp;NOVO</strong></h2><p>O&nbsp;Ano&nbsp;Novo&nbsp;no&nbsp;Itaú&nbsp;Clube&nbsp;é&nbsp;o&nbsp;convite&nbsp;perfeito&nbsp;para&nbsp;receber&nbsp;2026&nbsp;em&nbsp;clima&nbsp;de&nbsp;festa,&nbsp;acolhimento&nbsp;e&nbsp;boas&nbsp;energias&nbsp;ao&nbsp;lado&nbsp;da&nbsp;família.</p><p><strong>Vendas&nbsp;disponíveis&nbsp;a&nbsp;partir&nbsp;de&nbsp;12/11&nbsp;as&nbsp;10h.</strong></p>",
+    "isActive": true,
+    "image": "33b7f2e9-0cda-412d-8377-7e8ad86499c7-Pessoas-vestindo-branco-e-brindando-a-chegada-do-Ano-Novo.",
+    "position": 2,
+    "pageId": 1,
+    "bannerId": 48,
+    "cta": 1,
+    "actions": [
+      {
+        "id": 103,
+        "description": "Saiba mais",
+        "icon": "announcement",
+        "template": "ORANGE",
+        "type": "LINK",
+        "url": "https://app.itauunibancoclube.com.br/publicacoes/20",
+        "isNewWindow": true
+      }
+    ]
+  },
+  {
     "initialDate": "2025-10-27T11:45:00",
     "initialHour": "11:45",
     "endDate": "2025-11-29T09:00:00",

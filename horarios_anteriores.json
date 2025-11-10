@@ -7,6 +7,13 @@
     "identificador": "11/11/2025_17:00"
   },
   {
+    "data": "11/11/2025",
+    "diaDaSemana": "Terça-Feira",
+    "horaVisivel": "19:00 às 19:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "11/11/2025_19:00"
+  },
+  {
     "data": "13/11/2025",
     "diaDaSemana": "Quinta-Feira",
     "horaVisivel": "14:00 às 14:55",

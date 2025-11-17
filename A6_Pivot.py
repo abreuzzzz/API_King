@@ -115,8 +115,9 @@ if len(colunas_centro_custo) > 0 and 'paid' in df_completo.columns:
                 
                 print(f"  ✅ '{col_centro}': {registros_ambos} registros preenchidos (centro + valor copiado de 'paid')")
         
-        # Caso 2: Centro vazio MAS valor existe (ou não é Centro 1) - preenche apenas o centro
-        # Este cenário se aplica a TODAS as colunas
+        # Caso 2: Centro vazio MAS valor existe - preenche apenas o centro
+        # Para Centro 1: aplica normalmente
+        # Para Centros 2+: SÓ aplica se o valor NÃO estiver vazio (ou seja, pula se ambos estiverem vazios)
         mask_so_centro_vazio = mask_centro_vazio & (~mask_valor_vazio)
         registros_so_centro = mask_so_centro_vazio.sum()
         
@@ -132,6 +133,7 @@ if len(colunas_centro_custo) > 0 and 'paid' in df_completo.columns:
     
 else:
     print("  ⚠️ Colunas necessárias não encontradas para tratamento de centro de custo")
+
 
 
 

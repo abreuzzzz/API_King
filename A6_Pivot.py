@@ -73,23 +73,38 @@ if 'Centro de Custo 1' in df_completo.columns and 'Valor no Centro de Custo 1' i
     df_completo['Centro de Custo 1'] = df_completo['Centro de Custo 1'].astype(str).str.strip()
     
     # Cria máscara para identificar linhas onde Centro de Custo 1 está vazio
-    mask = (df_completo['Centro de Custo 1'].isna()) | (df_completo['Centro de Custo 1'] == '') | (df_completo['Centro de Custo 1'] == 'nan')
+    mask_centro_vazio = (df_completo['Centro de Custo 1'].isna()) | (df_completo['Centro de Custo 1'] == '') | (df_completo['Centro de Custo 1'] == 'nan')
+    
+    # Cria máscara adicional para identificar onde o Valor no Centro de Custo 1 está vazio
+    mask_valor_vazio = (df_completo['Valor no Centro de Custo 1'].isna()) | (df_completo['Valor no Centro de Custo 1'] == '') | (df_completo['Valor no Centro de Custo 1'] == 0)
+    
+    # Combina as duas máscaras: só atualiza onde AMBOS estão vazios
+    mask_final = mask_centro_vazio & mask_valor_vazio
     
     # Conta quantos registros serão afetados
-    registros_sem_cc = mask.sum()
-    print(f"  Encontrados {registros_sem_cc} registros sem centro de custo")
+    registros_sem_cc = mask_final.sum()
+    print(f"  Encontrados {registros_sem_cc} registros sem centro de custo E sem valor")
     
     if registros_sem_cc > 0:
         # Preenche "Centro de Custo 1" com "Sem Centro de Custo"
-        df_completo.loc[mask, 'Centro de Custo 1'] = 'Sem Centro de Custo'
+        df_completo.loc[mask_final, 'Centro de Custo 1'] = 'Sem Centro de Custo'
         
-        # Copia o valor de "paid" para "Valor no Centro de Custo 1"
-        df_completo.loc[mask, 'Valor no Centro de Custo 1'] = df_completo.loc[mask, 'paid']
+        # Copia o valor de "paid" para "Valor no Centro de Custo 1" APENAS se estiver vazio
+        df_completo.loc[mask_final, 'Valor no Centro de Custo 1'] = df_completo.loc[mask_final, 'paid']
         
         print(f"  ✅ {registros_sem_cc} registros preenchidos com 'Sem Centro de Custo'")
         print(f"  ✅ Valores copiados da coluna 'paid' para 'Valor no Centro de Custo 1'")
+    
+    # Trata separadamente os casos onde o centro de custo está vazio MAS o valor já existe
+    mask_centro_vazio_valor_existe = mask_centro_vazio & (~mask_valor_vazio)
+    registros_apenas_cc = mask_centro_vazio_valor_existe.sum()
+    
+    if registros_apenas_cc > 0:
+        df_completo.loc[mask_centro_vazio_valor_existe, 'Centro de Custo 1'] = 'Sem Centro de Custo'
+        print(f"  ✅ {registros_apenas_cc} registros preenchidos com 'Sem Centro de Custo' (valor mantido)")
 else:
     print("  ⚠️ Colunas necessárias não encontradas para tratamento de centro de custo")
+
 
 # Estatísticas finais
 print(f"\n📊 Resumo dos dados processados:")

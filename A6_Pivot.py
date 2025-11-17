@@ -218,8 +218,8 @@ if len(colunas_centro_custo) > 0 and len(colunas_valor) > 0:
     if 'paid_new' in df_final.columns:
         df_final['paid_new'] = df_final['paid_new'].abs()
         print("  ✅ Valores negativos convertidos para positivos")
-    
-# Remove linhas com NaN na coluna Centro_de_Custo_Unificado
+
+    # Remove linhas com NaN na coluna Centro_de_Custo_Unificado
 df_final = df_final.dropna(subset=['Centro_de_Custo_Unificado'])
 
 # Remove strings vazias e 'nan' como string

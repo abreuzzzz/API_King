@@ -101,10 +101,17 @@ if len(colunas_centro_custo) > 0 and len(colunas_valor) > 0:
     # Cria lista com todas as outras colunas que não são centro de custo
     colunas_id = [col for col in df_completo.columns if col not in colunas_centro_custo + colunas_valor]
     
+    # Adiciona índice único para facilitar o merge
+    df_completo_indexed = df_completo.reset_index(drop=False)
+    df_completo_indexed = df_completo_indexed.rename(columns={'index': 'row_id'})
+    
+    # Atualiza colunas_id para incluir row_id
+    colunas_id_merge = ['row_id'] + colunas_id
+    
     # Melt dos centros de custo
     df_melted_cc = pd.melt(
-        df_completo,
-        id_vars=colunas_id,
+        df_completo_indexed,
+        id_vars=colunas_id_merge,
         value_vars=colunas_centro_custo,
         var_name='Centro_de_Custo_Temp',
         value_name='Centro_de_Custo_Unificado'
@@ -112,8 +119,8 @@ if len(colunas_centro_custo) > 0 and len(colunas_valor) > 0:
     
     # Melt dos valores
     df_melted_valor = pd.melt(
-        df_completo,
-        id_vars=colunas_id,
+        df_completo_indexed,
+        id_vars=colunas_id_merge,
         value_vars=colunas_valor,
         var_name='Valor_Temp',
         value_name='paid_new'
@@ -123,15 +130,15 @@ if len(colunas_centro_custo) > 0 and len(colunas_valor) > 0:
     df_melted_cc['num'] = df_melted_cc['Centro_de_Custo_Temp'].str.extract(r'(\d+)$').astype(int)
     df_melted_valor['num'] = df_melted_valor['Valor_Temp'].str.extract(r'(\d+)$').astype(int)
     
-    # Junta os dois dataframes pelo número do centro de custo
+    # Junta os dois dataframes pelo row_id e número do centro de custo
     df_final = df_melted_cc.merge(
-        df_melted_valor[['num'] + colunas_id + ['paid_new']],
-        on=['num'] + colunas_id,
+        df_melted_valor[['row_id', 'num', 'paid_new']],
+        on=['row_id', 'num'],
         how='left'
     )
     
     # Remove colunas temporárias
-    df_final = df_final.drop(columns=['Centro_de_Custo_Temp', 'Valor_Temp', 'num'])
+    df_final = df_final.drop(columns=['Centro_de_Custo_Temp', 'row_id', 'num'])
     
     # Converte valores negativos em positivos
     if 'paid_new' in df_final.columns:
@@ -155,3 +162,4 @@ if len(colunas_centro_custo) > 0 and len(colunas_valor) > 0:
     print(f"📋 Total de colunas na planilha pivotada: {len(df_final.columns)}")
 else:
     print("⚠️ Nenhuma coluna de centro de custo encontrada para pivotagem")
+

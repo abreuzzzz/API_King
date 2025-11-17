@@ -219,10 +219,16 @@ if len(colunas_centro_custo) > 0 and len(colunas_valor) > 0:
         df_final['paid_new'] = df_final['paid_new'].abs()
         print("  ✅ Valores negativos convertidos para positivos")
     
-    # Remove linhas onde centro de custo está vazio
-    df_final = df_final[df_final['Centro_de_Custo_Unificado'].notna() & (df_final['Centro_de_Custo_Unificado'] != '')]
-    
-    print(f"  Total de registros após pivotagem: {len(df_final)}")
+# Remove linhas com NaN na coluna Centro_de_Custo_Unificado
+df_final = df_final.dropna(subset=['Centro_de_Custo_Unificado'])
+
+# Remove strings vazias e 'nan' como string
+df_final = df_final[
+    (df_final['Centro_de_Custo_Unificado'].astype(str).str.strip() != '') & 
+    (df_final['Centro_de_Custo_Unificado'].astype(str).str.strip() != 'nan')
+]
+
+print(f"  ✅ Linhas com NaN removidas. Total de registros após limpeza: {len(df_final)}")
     
     # Cria nova aba ou atualiza aba existente
     try:

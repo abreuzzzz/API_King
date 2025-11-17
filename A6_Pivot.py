@@ -65,34 +65,15 @@ if 'categoriesRatio.value' in df_completo.columns and 'paid' in df_completo.colu
         axis=1
     )
 
-# Estatísticas finais
-print(f"\n📊 Resumo dos dados processados:")
-print(f"  Total de registros: {len(df_completo)}")
-if 'tipo' in df_completo.columns:
-    print(f"  Receitas: {len(df_completo[df_completo['tipo'] == 'Receita'])}")
-    print(f"  Despesas: {len(df_completo[df_completo['tipo'] == 'Despesa'])}")
-if 'categoriesRatio.costCentersRatio.0.costCenter' in df_completo.columns:
-    centros_custo = df_completo['categoriesRatio.costCentersRatio.0.costCenter'].nunique()
-    print(f"  Centros de custo únicos: {centros_custo}")
-
-# 📄 Abrir a planilha de saída
-print("\n📤 Atualizando planilha consolidada...")
-planilha_saida = client.open_by_key(planilhas_ids["Financeiro_Completo_King"])
-aba_saida = planilha_saida.sheet1
-
-# Limpa a aba e sobrescreve
-aba_saida.clear()
-set_with_dataframe(aba_saida, df_completo)
-
-print("✅ Planilha consolidada atualizada com sucesso!")
-print(f"📋 Total de colunas exportadas: {len(df_completo.columns)}")
-
 # === TRATAMENTO PARA REGISTROS SEM CENTRO DE CUSTO ===
 print("\n🔍 Verificando registros sem centro de custo...")
 
 if 'Centro de Custo 1' in df_completo.columns and 'Valor no Centro de Custo 1' in df_completo.columns and 'paid' in df_completo.columns:
+    # Normaliza a coluna antes de criar a máscara (mais eficiente)
+    df_completo['Centro de Custo 1'] = df_completo['Centro de Custo 1'].astype(str).str.strip()
+    
     # Cria máscara para identificar linhas onde Centro de Custo 1 está vazio
-    mask = (df_completo['Centro de Custo 1'].isna()) | (df_completo['Centro de Custo 1'] == '') | (df_completo['Centro de Custo 1'].str.strip() == '')
+    mask = (df_completo['Centro de Custo 1'].isna()) | (df_completo['Centro de Custo 1'] == '') | (df_completo['Centro de Custo 1'] == 'nan')
     
     # Conta quantos registros serão afetados
     registros_sem_cc = mask.sum()
@@ -107,14 +88,30 @@ if 'Centro de Custo 1' in df_completo.columns and 'Valor no Centro de Custo 1' i
         
         print(f"  ✅ {registros_sem_cc} registros preenchidos com 'Sem Centro de Custo'")
         print(f"  ✅ Valores copiados da coluna 'paid' para 'Valor no Centro de Custo 1'")
-        
-        # Atualiza a planilha com as correções
-        print("\n📤 Atualizando planilha com correções de centro de custo...")
-        aba_saida.clear()
-        set_with_dataframe(aba_saida, df_completo)
-        print("✅ Planilha atualizada com correções!")
 else:
     print("  ⚠️ Colunas necessárias não encontradas para tratamento de centro de custo")
+
+# Estatísticas finais
+print(f"\n📊 Resumo dos dados processados:")
+print(f"  Total de registros: {len(df_completo)}")
+if 'tipo' in df_completo.columns:
+    print(f"  Receitas: {len(df_completo[df_completo['tipo'] == 'Receita'])}")
+    print(f"  Despesas: {len(df_completo[df_completo['tipo'] == 'Despesa'])}")
+if 'Centro de Custo 1' in df_completo.columns:
+    centros_custo = df_completo['Centro de Custo 1'].nunique()
+    print(f"  Centros de custo únicos: {centros_custo}")
+
+# 📄 Abrir a planilha de saída e escrever UMA ÚNICA VEZ
+print("\n📤 Atualizando planilha consolidada...")
+planilha_saida = client.open_by_key(planilhas_ids["Financeiro_Completo_King"])
+aba_saida = planilha_saida.sheet1
+
+# Limpa a aba e sobrescreve
+aba_saida.clear()
+set_with_dataframe(aba_saida, df_completo)
+
+print("✅ Planilha consolidada atualizada com sucesso!")
+print(f"📋 Total de colunas exportadas: {len(df_completo.columns)}")
 
 # === NOVA ETAPA: PIVOTAGEM DOS CENTROS DE CUSTO ===
 print("\n🔄 Iniciando pivotagem dos centros de custo...")
@@ -191,3 +188,5 @@ if len(colunas_centro_custo) > 0 and len(colunas_valor) > 0:
     print(f"📋 Total de colunas na planilha pivotada: {len(df_final.columns)}")
 else:
     print("⚠️ Nenhuma coluna de centro de custo encontrada para pivotagem")
+
+print("\n🎉 Processamento concluído com sucesso!")

@@ -78,6 +78,9 @@ if len(colunas_centro_custo) > 0 and 'paid' in df_completo.columns:
     total_registros_corrigidos = 0
     total_apenas_cc_preenchido = 0
     
+    # Cria uma máscara para rastrear linhas já processadas
+    linhas_ja_processadas = pd.Series([False] * len(df_completo), index=df_completo.index)
+    
     # Itera sobre cada par de colunas Centro de Custo / Valor
     for i, col_centro in enumerate(colunas_centro_custo, start=1):
         # Encontra a coluna de valor correspondente
@@ -97,6 +100,9 @@ if len(colunas_centro_custo) > 0 and 'paid' in df_completo.columns:
         # Máscara para valor vazio
         mask_valor_vazio = (df_completo[col_valor].isna()) | (df_completo[col_valor] == '') | (df_completo[col_valor] == 0)
         
+        # IMPORTANTE: Exclui linhas já processadas
+        mask_centro_vazio = mask_centro_vazio & (~linhas_ja_processadas)
+        
         # Caso 1: Centro vazio E valor vazio - preenche ambos
         mask_ambos_vazios = mask_centro_vazio & mask_valor_vazio
         registros_ambos = mask_ambos_vazios.sum()
@@ -105,6 +111,10 @@ if len(colunas_centro_custo) > 0 and 'paid' in df_completo.columns:
             df_completo.loc[mask_ambos_vazios, col_centro] = 'Sem Centro de Custo'
             df_completo.loc[mask_ambos_vazios, col_valor] = df_completo.loc[mask_ambos_vazios, 'paid']
             total_registros_corrigidos += registros_ambos
+            
+            # Marca essas linhas como já processadas
+            linhas_ja_processadas = linhas_ja_processadas | mask_ambos_vazios
+            
             print(f"  ✅ '{col_centro}': {registros_ambos} registros preenchidos (centro + valor)")
         
         # Caso 2: Centro vazio MAS valor existe - preenche apenas o centro
@@ -114,15 +124,21 @@ if len(colunas_centro_custo) > 0 and 'paid' in df_completo.columns:
         if registros_so_centro > 0:
             df_completo.loc[mask_so_centro_vazio, col_centro] = 'Sem Centro de Custo'
             total_apenas_cc_preenchido += registros_so_centro
+            
+            # Marca essas linhas como já processadas
+            linhas_ja_processadas = linhas_ja_processadas | mask_so_centro_vazio
+            
             print(f"  ✅ '{col_centro}': {registros_so_centro} registros preenchidos (apenas centro, valor mantido)")
     
     # Resumo final
     print(f"\n  📊 Resumo do tratamento:")
     print(f"    Total de registros com centro + valor preenchidos: {total_registros_corrigidos}")
     print(f"    Total de registros com apenas centro preenchido: {total_apenas_cc_preenchido}")
+    print(f"    Total de linhas únicas processadas: {linhas_ja_processadas.sum()}")
     
 else:
     print("  ⚠️ Colunas necessárias não encontradas para tratamento de centro de custo")
+
 
 
 

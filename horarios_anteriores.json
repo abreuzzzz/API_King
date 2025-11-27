@@ -2,6 +2,13 @@
   {
     "data": "27/11/2025",
     "diaDaSemana": "Quinta-Feira",
+    "horaVisivel": "16:00 às 16:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "27/11/2025_16:00"
+  },
+  {
+    "data": "27/11/2025",
+    "diaDaSemana": "Quinta-Feira",
     "horaVisivel": "17:00 às 17:55",
     "professor": "Prof. Maiara Lima",
     "identificador": "27/11/2025_17:00"
@@ -26,13 +33,6 @@
     "horaVisivel": "16:00 às 16:55",
     "professor": "Prof. Maiara Lima",
     "identificador": "02/12/2025_16:00"
-  },
-  {
-    "data": "02/12/2025",
-    "diaDaSemana": "Terça-Feira",
-    "horaVisivel": "18:00 às 18:55",
-    "professor": "Prof. Maiara Lima",
-    "identificador": "02/12/2025_18:00"
   },
   {
     "data": "02/12/2025",

@@ -20,8 +20,16 @@ sheet_csv_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?forma
 
 SHEET_ID2 = "1nC5HbzmDywI1LOQ3SmPwhqnvXqpwUwOd9SGV9mlVaZQ"  # ID da planilha de destino
 
-# Ler a planilha
-df = pd.read_csv(sheet_csv_url)
+# Ler a planilha com tipos mistos
+df = pd.read_csv(sheet_csv_url, low_memory=False)
+
+# Debug: Ver colunas disponíveis
+print("=== COLUNAS DISPONÍVEIS ===")
+print(df.columns.tolist())
+print("\n=== PRIMEIRAS LINHAS ===")
+print(df.head())
+print("\n=== VALORES ÚNICOS NA COLUNA 'tipo' ===")
+print(df['tipo'].unique() if 'tipo' in df.columns else "Coluna 'tipo' não encontrada")
 
 # Limpar valores monetários
 def limpar_valores(col):
@@ -36,7 +44,6 @@ def limpar_valores(col):
 df['paid_new'] = limpar_valores(df['paid_new'])
 
 # Converter coluna de data
-# Conversão de datas com parsing manual para evitar problemas de formatação
 def parse_data_segura(coluna):
     datas = pd.to_datetime(
         coluna.apply(lambda x: '-'.join(x.split('-')[:3]) if isinstance(x, str) and '-' in x else None),
@@ -57,6 +64,9 @@ df['AnoMes'] = df['lastAcquittanceDate'].dt.to_period('M')
 df['Trimestre'] = df['lastAcquittanceDate'].dt.to_period('Q')
 df['AnoMes_Caixa'] = df['lastAcquittanceDate'].dt.to_period('M')
 df['Trimestre_Caixa'] = df['lastAcquittanceDate'].dt.to_period('Q')
+
+# Normalizar valores da coluna 'tipo' para evitar problemas de case
+df['tipo'] = df['tipo'].str.strip().str.capitalize()
 
 # Resumo trimestral: valores pagos
 resumo_trimestral = df.groupby(['Trimestre', 'tipo'])[['paid_new']].sum().unstack(fill_value=0)
@@ -94,30 +104,35 @@ fluxo_caixa = df_realizadas.groupby('AnoMes_Caixa')['valor_ajustado'].sum().rese
 fluxo_caixa['saldo_acumulado'] = fluxo_caixa['valor_ajustado'].cumsum()
 
 # Receitas e despesas por mês
-df_receitas = df_realizadas[df_realizadas['tipo'].str.lower() == 'receita']
-df_despesas = df_realizadas[df_realizadas['tipo'].str.lower() == 'despesa']
+df_receitas = df_realizadas[df_realizadas['tipo'] == 'Receita']
+df_despesas = df_realizadas[df_realizadas['tipo'] == 'Despesa']
 
 receitas_mensais = df_receitas.groupby('AnoMes')['paid_new'].sum().reset_index()
-despesas_mensais = df_despesas.groupby('AnoMes')['paid_new'].sum().reset_index()
+receitas_mensais.columns = ['AnoMes', 'paid_receita']
 
-# Rentabilidade
+despesas_mensais = df_despesas.groupby('AnoMes')['paid_new'].sum().reset_index()
+despesas_mensais.columns = ['AnoMes', 'paid_despesa']
+
+# Rentabilidade - Corrigido
 rentabilidade = pd.merge(
     receitas_mensais,
     despesas_mensais,
     on='AnoMes',
-    how='outer',
-    suffixes=('_receita', '_despesa')
+    how='outer'
 ).fillna(0)
 
 rentabilidade['lucro'] = rentabilidade['paid_receita'] - rentabilidade['paid_despesa']
-rentabilidade['margem_lucro'] = rentabilidade['lucro'] / rentabilidade['paid_receita'].replace(0, pd.NA)
+rentabilidade['margem_lucro'] = rentabilidade.apply(
+    lambda row: (row['lucro'] / row['paid_receita']) if row['paid_receita'] > 0 else 0,
+    axis=1
+)
 
 # Pendências e vencidos
 df_pendentes = df[(df['paid_new'] > 0) & (df['dueDate'] <= hoje) & (df['status'] == 'OVERDUE')]
 
 # Inadimplência
 total_vencido = df_pendentes[df_pendentes['tipo'] == 'Receita']['paid_new'].sum()
-inadimplencia = total_vencido / total_recebido if total_recebido else 0
+inadimplencia = total_vencido / total_recebido if total_recebido > 0 else 0
 
 # Prompt detalhado
 prompt = f"""
@@ -168,7 +183,7 @@ response = client.chat.completions.create(
 )
 
 # Mostrar insights
-print("=== INSIGHTS GERADOS ===")
+print("\n=== INSIGHTS GERADOS ===")
 print(response.choices[0].message.content)
 
 # Credenciais do serviço

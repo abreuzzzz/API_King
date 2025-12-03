@@ -13,7 +13,10 @@ client = OpenAI(api_key=deepseek_api_key, base_url="https://api.deepseek.com")
 
 # URL da planilha Google Sheets exportada como CSV
 sheet_id = "1xwp9gIz0lV4mW5geUBESj1W59QSySdVYipThXAOUgrU"
-sheet_csv_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
+gid = "1737132009"  # SUBSTITUA pelo gid da aba "Dados_Pivotados"
+
+# URL com gid específico para exportar a aba desejada
+sheet_csv_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid={gid}"
 
 SHEET_ID2 = "1nC5HbzmDywI1LOQ3SmPwhqnvXqpwUwOd9SGV9mlVaZQ"  # ID da planilha de destino
 
@@ -30,7 +33,7 @@ def limpar_valores(col):
            .pipe(pd.to_numeric, errors="coerce")
     )
 
-df['paid'] = limpar_valores(df['paid'])
+df['paid_new'] = limpar_valores(df['paid_new'])
 
 # Converter coluna de data
 # Conversão de datas com parsing manual para evitar problemas de formatação
@@ -56,22 +59,22 @@ df['AnoMes_Caixa'] = df['lastAcquittanceDate'].dt.to_period('M')
 df['Trimestre_Caixa'] = df['lastAcquittanceDate'].dt.to_period('Q')
 
 # Resumo trimestral: valores pagos
-resumo_trimestral = df.groupby(['Trimestre', 'tipo'])[['paid']].sum().unstack(fill_value=0)
+resumo_trimestral = df.groupby(['Trimestre', 'tipo'])[['paid_new']].sum().unstack(fill_value=0)
 
 # Variação mensal por categoria
-resumo_mensal_categoria = df.groupby(['AnoMes', 'categoriesRatio.category'])['paid'].sum().unstack(fill_value=0)
+resumo_mensal_categoria = df.groupby(['AnoMes', 'categoriesRatio.category'])['paid_new'].sum().unstack(fill_value=0)
 variacao_mensal_pct = resumo_mensal_categoria.pct_change().fillna(0)
 categorias_com_alta = (variacao_mensal_pct > 0.3).apply(lambda row: row[row > 0.3].to_dict(), axis=1).to_dict()
 
 # Valores totais
-total_recebido = df[df['tipo'] == 'Receita']['paid'].sum()
-total_pago = df[df['tipo'] == 'Despesa']['paid'].sum()
+total_recebido = df[df['tipo'] == 'Receita']['paid_new'].sum()
+total_pago = df[df['tipo'] == 'Despesa']['paid_new'].sum()
 total_pendente_despesa = df[
     (df['tipo'] == 'Despesa') & (df['status'] == 'OVERDUE')
-]['paid'].sum()
+]['paid_new'].sum()
 total_pendente_receita = df[
     (df['tipo'] == 'Receita') & (df['status'] == 'OVERDUE')
-]['paid'].sum()
+]['paid_new'].sum()
 saldo_liquido = total_recebido - total_pago
 top_categorias = df['categoriesRatio.category'].value_counts().head(3).to_dict()
 
@@ -82,7 +85,7 @@ hoje = pd.to_datetime(datetime.today().date())
 df_realizadas = df[df['lastAcquittanceDate'] <= hoje].copy()
 
 df_realizadas['valor_ajustado'] = df_realizadas.apply(
-    lambda row: abs(row['paid']) if row['tipo'] == 'Receita' else -abs(row['paid']),
+    lambda row: abs(row['paid_new']) if row['tipo'] == 'Receita' else -abs(row['paid_new']),
     axis=1
 )
 
@@ -91,11 +94,11 @@ fluxo_caixa = df_realizadas.groupby('AnoMes_Caixa')['valor_ajustado'].sum().rese
 fluxo_caixa['saldo_acumulado'] = fluxo_caixa['valor_ajustado'].cumsum()
 
 # Receitas e despesas por mês
-df_receitas = df_realizadas[df_realizadas['tipo'].str.lower() == 'Receita']
-df_despesas = df_realizadas[df_realizadas['tipo'].str.lower() == 'Despesa']
+df_receitas = df_realizadas[df_realizadas['tipo'].str.lower() == 'receita']
+df_despesas = df_realizadas[df_realizadas['tipo'].str.lower() == 'despesa']
 
-receitas_mensais = df_receitas.groupby('AnoMes')['paid'].sum().reset_index()
-despesas_mensais = df_despesas.groupby('AnoMes')['paid'].sum().reset_index()
+receitas_mensais = df_receitas.groupby('AnoMes')['paid_new'].sum().reset_index()
+despesas_mensais = df_despesas.groupby('AnoMes')['paid_new'].sum().reset_index()
 
 # Rentabilidade
 rentabilidade = pd.merge(
@@ -110,10 +113,10 @@ rentabilidade['lucro'] = rentabilidade['paid_receita'] - rentabilidade['paid_des
 rentabilidade['margem_lucro'] = rentabilidade['lucro'] / rentabilidade['paid_receita'].replace(0, pd.NA)
 
 # Pendências e vencidos
-df_pendentes = df[(df['paid'] > 0) & (df['dueDate'] <= hoje) & (df['status'] == 'OVERDUE')]
+df_pendentes = df[(df['paid_new'] > 0) & (df['dueDate'] <= hoje) & (df['status'] == 'OVERDUE')]
 
 # Inadimplência
-total_vencido = df_pendentes[df_pendentes['tipo'] == 'Receita']['paid'].sum()
+total_vencido = df_pendentes[df_pendentes['tipo'] == 'Receita']['paid_new'].sum()
 inadimplencia = total_vencido / total_recebido if total_recebido else 0
 
 # Prompt detalhado
@@ -165,8 +168,8 @@ response = client.chat.completions.create(
 )
 
 # Mostrar insights
-#print("=== INSIGHTS GERADOS ===")
-#print(response.choices[0].message.content)
+print("=== INSIGHTS GERADOS ===")
+print(response.choices[0].message.content)
 
 # Credenciais do serviço
 json_secret = os.getenv("GDRIVE_SERVICE_ACCOUNT")
@@ -175,7 +178,7 @@ creds = Credentials.from_service_account_info(creds_dict, scopes=["https://www.g
 
 # Acessar a planilha
 gc = gspread.authorize(creds)
-spreadsheet = gc.open_by_key("1nC5HbzmDywI1LOQ3SmPwhqnvXqpwUwOd9SGV9mlVaZQ")
+spreadsheet = gc.open_by_key(SHEET_ID2)
 worksheet = spreadsheet.get_worksheet(0)  # primeira aba
 
 # Limpar todo o conteúdo anterior
@@ -198,3 +201,5 @@ for bloco in blocos:
 
 # Escrever na planilha
 worksheet.update(dados, "A1")
+
+print("\n=== ANÁLISE SALVA NA PLANILHA COM SUCESSO ===")

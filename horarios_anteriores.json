@@ -54,5 +54,61 @@
     "horaVisivel": "21:00 às 21:55",
     "professor": "Prof. Maiara Lima",
     "identificador": "06/01/2026_21:00"
+  },
+  {
+    "data": "08/01/2026",
+    "diaDaSemana": "Quinta-Feira",
+    "horaVisivel": "14:00 às 14:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "08/01/2026_14:00"
+  },
+  {
+    "data": "08/01/2026",
+    "diaDaSemana": "Quinta-Feira",
+    "horaVisivel": "15:00 às 15:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "08/01/2026_15:00"
+  },
+  {
+    "data": "08/01/2026",
+    "diaDaSemana": "Quinta-Feira",
+    "horaVisivel": "16:00 às 16:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "08/01/2026_16:00"
+  },
+  {
+    "data": "08/01/2026",
+    "diaDaSemana": "Quinta-Feira",
+    "horaVisivel": "17:00 às 17:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "08/01/2026_17:00"
+  },
+  {
+    "data": "08/01/2026",
+    "diaDaSemana": "Quinta-Feira",
+    "horaVisivel": "18:00 às 18:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "08/01/2026_18:00"
+  },
+  {
+    "data": "08/01/2026",
+    "diaDaSemana": "Quinta-Feira",
+    "horaVisivel": "19:00 às 19:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "08/01/2026_19:00"
+  },
+  {
+    "data": "08/01/2026",
+    "diaDaSemana": "Quinta-Feira",
+    "horaVisivel": "20:00 às 20:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "08/01/2026_20:00"
+  },
+  {
+    "data": "08/01/2026",
+    "diaDaSemana": "Quinta-Feira",
+    "horaVisivel": "21:00 às 21:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "08/01/2026_21:00"
   }
 ]

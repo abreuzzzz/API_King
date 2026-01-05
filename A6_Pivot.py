@@ -31,8 +31,8 @@ def ler_planilha_por_id(nome_arquivo):
 
 # Lê os dados das planilhas principais
 print("📥 Lendo planilhas de contas a receber e contas a pagar...")
-df_receber = ler_planilha_por_id("Financeiro_contas_a_receber_Trilium")
-df_pagar = ler_planilha_por_id("Financeiro_contas_a_pagar_Trilium")
+df_receber = ler_planilha_por_id("FInanceiro_contas_a_receber_King")
+df_pagar = ler_planilha_por_id("Financeiro_contas_a_pagar_King")
 
 # Adiciona a coluna tipo
 df_receber["tipo"] = "Receita"

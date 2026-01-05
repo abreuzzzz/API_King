@@ -151,7 +151,7 @@ if 'Centro de Custo 1' in df_completo.columns:
 
 # 📄 Abrir a planilha de saída e escrever UMA ÚNICA VEZ
 print("\n📤 Atualizando planilha consolidada...")
-planilha_saida = client.open_by_key(planilhas_ids["Financeiro_Completo_Trilium"])
+planilha_saida = client.open_by_key(planilhas_ids["Financeiro_Completo_King"])
 aba_saida = planilha_saida.sheet1
 
 # Limpa a aba e sobrescreve

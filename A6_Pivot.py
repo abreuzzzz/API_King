@@ -31,8 +31,8 @@ def ler_planilha_por_id(nome_arquivo):
 
 # Lê os dados das planilhas principais
 print("📥 Lendo planilhas de contas a receber e contas a pagar...")
-df_receber = ler_planilha_por_id("FInanceiro_contas_a_receber_King")
-df_pagar = ler_planilha_por_id("Financeiro_contas_a_pagar_King")
+df_receber = ler_planilha_por_id("Financeiro_contas_a_receber_Trilium")
+df_pagar = ler_planilha_por_id("Financeiro_contas_a_pagar_Trilium")
 
 # Adiciona a coluna tipo
 df_receber["tipo"] = "Receita"
@@ -151,7 +151,7 @@ if 'Centro de Custo 1' in df_completo.columns:
 
 # 📄 Abrir a planilha de saída e escrever UMA ÚNICA VEZ
 print("\n📤 Atualizando planilha consolidada...")
-planilha_saida = client.open_by_key(planilhas_ids["Financeiro_Completo_King"])
+planilha_saida = client.open_by_key(planilhas_ids["Financeiro_Completo_Trilium"])
 aba_saida = planilha_saida.sheet1
 
 # Limpa a aba e sobrescreve
@@ -216,6 +216,7 @@ if len(colunas_centro_custo) > 0 and len(colunas_valor) > 0:
     
     # Converte valores negativos em positivos
     if 'paid_new' in df_final.columns:
+        df_final['paid_new'] = pd.to_numeric(df_final['paid_new'], errors='coerce')
         df_final['paid_new'] = df_final['paid_new'].abs()
         print("  ✅ Valores negativos convertidos para positivos")
 

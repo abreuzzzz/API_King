@@ -5,5 +5,47 @@
     "horaVisivel": "17:00 às 17:55",
     "professor": "Prof. Maiara Lima",
     "identificador": "22/01/2026_17:00"
+  },
+  {
+    "data": "27/01/2026",
+    "diaDaSemana": "Terça-Feira",
+    "horaVisivel": "15:00 às 15:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "27/01/2026_15:00"
+  },
+  {
+    "data": "27/01/2026",
+    "diaDaSemana": "Terça-Feira",
+    "horaVisivel": "16:00 às 16:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "27/01/2026_16:00"
+  },
+  {
+    "data": "27/01/2026",
+    "diaDaSemana": "Terça-Feira",
+    "horaVisivel": "17:00 às 17:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "27/01/2026_17:00"
+  },
+  {
+    "data": "27/01/2026",
+    "diaDaSemana": "Terça-Feira",
+    "horaVisivel": "18:00 às 18:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "27/01/2026_18:00"
+  },
+  {
+    "data": "27/01/2026",
+    "diaDaSemana": "Terça-Feira",
+    "horaVisivel": "20:00 às 20:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "27/01/2026_20:00"
+  },
+  {
+    "data": "27/01/2026",
+    "diaDaSemana": "Terça-Feira",
+    "horaVisivel": "21:00 às 21:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "27/01/2026_21:00"
   }
 ]

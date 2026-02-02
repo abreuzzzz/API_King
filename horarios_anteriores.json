@@ -19,19 +19,5 @@
     "horaVisivel": "17:00 às 17:55",
     "professor": "Prof. Maiara Lima",
     "identificador": "05/02/2026_17:00"
-  },
-  {
-    "data": "05/02/2026",
-    "diaDaSemana": "Quinta-Feira",
-    "horaVisivel": "18:00 às 18:55",
-    "professor": "Prof. Maiara Lima",
-    "identificador": "05/02/2026_18:00"
-  },
-  {
-    "data": "05/02/2026",
-    "diaDaSemana": "Quinta-Feira",
-    "horaVisivel": "21:00 às 21:55",
-    "professor": "Prof. Maiara Lima",
-    "identificador": "05/02/2026_21:00"
   }
 ]

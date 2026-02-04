@@ -1,5 +1,12 @@
 [
   {
+    "data": "05/02/2026",
+    "diaDaSemana": "Quinta-Feira",
+    "horaVisivel": "16:00 às 16:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "05/02/2026_16:00"
+  },
+  {
     "data": "10/02/2026",
     "diaDaSemana": "Terça-Feira",
     "horaVisivel": "14:00 às 14:55",

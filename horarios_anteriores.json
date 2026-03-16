@@ -9,6 +9,13 @@
   {
     "data": "17/03/2026",
     "diaDaSemana": "Terça-Feira",
+    "horaVisivel": "19:00 às 19:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "17/03/2026_19:00"
+  },
+  {
+    "data": "17/03/2026",
+    "diaDaSemana": "Terça-Feira",
     "horaVisivel": "21:00 às 21:55",
     "professor": "Prof. Maiara Lima",
     "identificador": "17/03/2026_21:00"

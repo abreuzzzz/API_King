@@ -5,5 +5,12 @@
     "horaVisivel": "16:00 às 16:55",
     "professor": "Prof. Maiara Lima",
     "identificador": "23/04/2026_16:00"
+  },
+  {
+    "data": "23/04/2026",
+    "diaDaSemana": "Quinta-Feira",
+    "horaVisivel": "18:00 às 18:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "23/04/2026_18:00"
   }
 ]

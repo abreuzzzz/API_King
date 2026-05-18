@@ -9,9 +9,23 @@
   {
     "data": "19/05/2026",
     "diaDaSemana": "Terça-Feira",
+    "horaVisivel": "19:00 às 19:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "19/05/2026_19:00"
+  },
+  {
+    "data": "19/05/2026",
+    "diaDaSemana": "Terça-Feira",
     "horaVisivel": "21:00 às 21:55",
     "professor": "Prof. Maiara Lima",
     "identificador": "19/05/2026_21:00"
+  },
+  {
+    "data": "21/05/2026",
+    "diaDaSemana": "Quinta-Feira",
+    "horaVisivel": "14:00 às 14:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "21/05/2026_14:00"
   },
   {
     "data": "21/05/2026",

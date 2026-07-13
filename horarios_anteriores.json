@@ -23,6 +23,13 @@
   {
     "data": "14/07/2026",
     "diaDaSemana": "Terça-Feira",
+    "horaVisivel": "17:00 às 17:55",
+    "professor": "Prof. Maiara Lima",
+    "identificador": "14/07/2026_17:00"
+  },
+  {
+    "data": "14/07/2026",
+    "diaDaSemana": "Terça-Feira",
     "horaVisivel": "18:00 às 18:55",
     "professor": "Prof. Maiara Lima",
     "identificador": "14/07/2026_18:00"

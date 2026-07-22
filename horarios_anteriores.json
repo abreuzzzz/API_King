@@ -35,13 +35,6 @@
     "identificador": "23/07/2026_20:00"
   },
   {
-    "data": "23/07/2026",
-    "diaDaSemana": "Quinta-Feira",
-    "horaVisivel": "21:00 às 21:55",
-    "professor": "Prof. Maiara Lima",
-    "identificador": "23/07/2026_21:00"
-  },
-  {
     "data": "28/07/2026",
     "diaDaSemana": "Terça-Feira",
     "horaVisivel": "14:00 às 14:55",
@@ -54,13 +47,6 @@
     "horaVisivel": "15:00 às 15:55",
     "professor": "Prof. Maiara Lima",
     "identificador": "28/07/2026_15:00"
-  },
-  {
-    "data": "28/07/2026",
-    "diaDaSemana": "Terça-Feira",
-    "horaVisivel": "16:00 às 16:55",
-    "professor": "Prof. Maiara Lima",
-    "identificador": "28/07/2026_16:00"
   },
   {
     "data": "28/07/2026",

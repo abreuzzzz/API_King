@@ -1,6 +1,6 @@
 name: Monitor Horários Pure Pilates
 
-on:
+off:
   schedule:
     - cron: '*/30 8-23 * * *'  # de 8h a 23h30 (UTC)
     - cron: '*/30 0-4 * * *'   # de 0h a 4h30 (UTC)
